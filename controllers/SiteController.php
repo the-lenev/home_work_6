@@ -9,6 +9,7 @@ use yii\filters\VerbFilter;
 use yii\helpers\VarDumper;
 // Подключаем модели
 use app\models\Post;
+use app\models\Category;
 
 class SiteController extends Controller {
 
@@ -21,12 +22,19 @@ class SiteController extends Controller {
     }
 
     // Отображение списка задач
-    public function actionIndex() {
-
-        $model = Post::find()->all();
+    public function actionIndex($cat = null) {
+        // Если получена категория, то
+        if (!$cat == null) {
+            // Получаем записи указанной категории
+            $model = Post::find()->where(['cat_id' => $cat])->all();
+        } else {
+            // Иначе получаем все записи из таблицы
+            $model = Post::find()->all();
+        }
         // Отображаем шаблон и передаем в него данные из моделей
         return $this->render('index', [
             'model' => $model,
+            'category' => Category::getStructure(),
         ]);
     }
 
@@ -72,7 +80,6 @@ class SiteController extends Controller {
 
     // Просмотр задачи
     public function actionView($id = null) {
-    
         // отображаем шаблон добавления задачи и загружаем в него данные из моделей
         return $this->render('view', [
             'model' => $this->findModel($id),
