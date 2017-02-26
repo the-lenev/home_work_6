@@ -30,4 +30,14 @@ class Post extends \yii\db\ActiveRecord {
             'content' => Yii::t('app','Content'),
         ];
     }
+
+    // Добавляем связь с таблицей Категорий
+    public function getCategory() {
+        return $this->hasOne(Category::className(),['id' => 'cat_id']);
+    }
+
+    // Добавляем связь с таблицей Комментариев
+    public function getComment() {
+        return $this->hasMany(Comment::className(),['post_id' => 'id']);
+    }
 }

@@ -12,8 +12,12 @@ use yii\bootstrap\ActiveForm;
     // Открываем форму
     $form = ActiveForm::begin(); ?>
         <?=
-        // Добавляем поле, соответствующее полю 'text' в таблице и устанавливаем его описание (метку)
+        // Добавляем поле заголовка Поста
         $form->field($model, 'title')->label(Yii::t('app', 'Title'));
+        ?>
+        <?=
+        // Добавляем поле для Категорий
+        $form->field($model, 'cat_id')->dropDownList(ArrayHelper::map($category, 'id', 'name'))->label(Yii::t('app', 'Category'));
         ?>
         <?=
         // Добавляем поле для Содержания

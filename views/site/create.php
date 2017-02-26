@@ -3,7 +3,7 @@
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
 
-$this->title = Yii::t('app', 'Add articles');
+$this->title = Yii::t('app', 'Add post');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <h1><?= Html::encode($this->title) ?></h1>
@@ -11,5 +11,6 @@ $this->params['breadcrumbs'][] = $this->title;
 <?=
 $this->render('_form', [
     'model' => $model,
+    'category' => $category,
 ])
 ?>

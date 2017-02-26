@@ -23,9 +23,18 @@ $this->params['breadcrumbs'][] = $this->title;
         // Ссылки указывают на действия контроллера, которые нужно выполнить, и ключи записей, к которым их нужно применить
         foreach ($model as $post) {?>
             <div class='list-group-item clearfix'>
-                <div class="col-sm-10">
+                <div class="col-sm-9">
                     <a href="<?= Url::to(['site/view', 'id' => $post['id']])?>">
                         <?= $post['title']?>
+                    </a>
+                </div>
+                <div class="col-sm-1">
+                    <a href="<?= Url::to(['site/view', 'id' => $post['id']])?>" title="<?= Yii::t('app', 'Show comment')?>">
+                        <span class="glyphicon glyphicon-comment"></span>
+                        <?php
+                        if ($comments = $post->comment) {?>
+                            <span><?= count($comments)?></span>
+                        <?php }?>
                     </a>
                 </div>
                 <div class="col-sm-1">
