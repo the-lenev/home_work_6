@@ -13,6 +13,7 @@ use app\models\Category;
 use app\models\Comment;
 use app\models\Subscribers;
 use app\models\Tags;
+use app\models\SearchPost;
 
 class SiteController extends Controller {
 
@@ -137,6 +138,20 @@ class SiteController extends Controller {
                 'model' => $model,
             ]);
         }
+    }
+
+    // Поиск по статьям
+    public function actionSearch() {
+        // Создаем экземпляр модели
+        $searchModel = new SearchPost();
+        // Передаем параметры запроса и получаем экземпляр поставщика данных
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        // Выводим представление
+        return $this->render('search', [
+            // Передаем в представление модель и данные
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+        ]);
     }
 
     protected function findModel($id) {

@@ -9,7 +9,16 @@ $this->title = Yii::t('app', 'Articles list');
 // Добавляем title в дорогу (хлебные крошки)
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<h1><?= Html::encode($this->title) ?></h1>
+<div class="row">
+    <div class="col-sm-11">
+        <h1><?= Html::encode($this->title) ?></h1>
+    </div>
+    <div class="col-sm-1 text-right">
+        <a class="btn btn-primary" href="<?= Url::to(['site/search'])?>">
+             <span class="glyphicon glyphicon-search"></span>
+        </a>
+    </div>
+</div>
 <div class="row">
     <div class="col-sm-2">
         <?= $this->render('_menu', [
