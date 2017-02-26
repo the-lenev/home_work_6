@@ -55,5 +55,10 @@ $this->params['breadcrumbs'][] = $this->title;
                  <?= Yii::t('app', 'Add');?>
             </a>
         </div>
+        <div class="list-group">
+            <a class="btn btn-info" href="<?= Url::to(['site/subscriber'])?>">
+                 <?= Yii::t('app', 'Subscribe to new post');?>
+            </a>
+        </div>
     </div>
 </div>

@@ -11,6 +11,7 @@ use yii\helpers\VarDumper;
 use app\models\Post;
 use app\models\Category;
 use app\models\Comment;
+use app\models\Subscribers;
 
 class SiteController extends Controller {
 
@@ -45,6 +46,8 @@ class SiteController extends Controller {
         $model = new Post();
         // Если есть данные переданные через $_POST, они загружены в модель и сохранены б БД, то...
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            // Отправляем сообщение на почту
+            $model->sendEmail();
             // Переходим на просмотр списка постов
             return $this->redirect(['index']);
         } else {
@@ -112,6 +115,22 @@ class SiteController extends Controller {
             return $this->redirect(Yii::$app->request->referrer);
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
+        }
+    }
+
+    // Добавление подписчика
+    public function actionSubscriber() {
+        // Создаем подписчика
+        $model = new Subscribers();
+        // Если есть данные переданные через $_POST, они загружены в модель и сохранены б БД, то...
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            // Переходим на страницу, с которой пришел запрос
+            return $this->redirect(['index']);
+        } else {
+            // Иначе отображаем шаблон добавления задачи и загружаем в него данные из модели (поля новой записи)
+            return $this->render('subscriber', [
+                'model' => $model,
+            ]);
         }
     }
 

@@ -40,4 +40,32 @@ class Post extends \yii\db\ActiveRecord {
     public function getComment() {
         return $this->hasMany(Comment::className(),['post_id' => 'id']);
     }
+
+    // Отправка сообщения на почту
+    public function sendEmail() {
+
+        if ($this->validate()) {
+            // Получаем записи всех подписчиков из БД
+            $subscribers = Subscribers::find()->asArray()->all();
+            // Формируем текст сообщения
+            $mess = Html::a($this->title, Url::to(['@web/site/view', 'id' => $this->id], true));
+            // Для всех отправляем сообщение
+            foreach ($subscribers as $subscriber) {
+                // Cоздаем экземпляр почтового сообщения
+                Yii::$app->mailer->compose()
+                    // Почту "От кого" берем из параметров конфига
+                    ->setFrom(Yii::$app->params['adminEmail'])
+                    // Отправляем на адрес, указанный в базе подписчиков
+                    ->setTo($subscriber['email'])
+                    // Тему берем из названия поста
+                    ->setSubject($this->title)
+                    // В тело письма вставляем ссылку на новый пост
+                    ->setHtmlBody($mess)
+                    // Отправляем сообщение
+                    ->send();
+            }
+            return true;
+        }
+        return false;
+    }
 }
