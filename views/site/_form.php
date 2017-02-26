@@ -20,6 +20,10 @@ use yii\bootstrap\ActiveForm;
         $form->field($model, 'cat_id')->dropDownList(ArrayHelper::map($category, 'id', 'name'))->label(Yii::t('app', 'Category'));
         ?>
         <?=
+        // Добавляем поле для Тегов
+        $form->field($model, 'tags')->listBox(ArrayHelper::map($tags, 'id', 'title'),['multiple' => true])
+        ?>
+        <?=
         // Добавляем поле для Содержания
         $form->field($model, 'content')->textArea(['rows' => 3, 'cols' => 5])->label(Yii::t('app', 'Content'));
         ?>

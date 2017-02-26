@@ -68,4 +68,47 @@ class Post extends \yii\db\ActiveRecord {
         }
         return false;
     }
+
+    // Добавляем связь с таблицей Тегов
+    public function getTagPost() {
+        return $this->hasMany(TagPost::className(),['post_id' => 'id']);
+    }
+
+    // Список тэгов, закреплённых за постом.
+    protected $tags = [];
+
+    // Устанавливаем тэги поста
+    public function setTags($tagsId) {
+        $this->tags = (array) $tagsId;
+    }
+
+    // Получаем массив id тегов
+    public function getTags() {
+        return ArrayHelper::getColumn(
+            $this->getTagPost()->all(), 'tag_id'
+        );
+    }
+
+    // После сохранения данных (событие) в модели поста обновляем данные в связующей таблице
+    public function afterSave($insert, $changedAttributes) {
+        // Удаляем все записи тегов у обновленного поста
+        TagPost::deleteAll(['post_id' => $this->id]);
+        // Промежуточный массив тегов
+        $values = [];
+        // Для всех записей из массива тегов
+        foreach ($this->tags as $id) {
+            // Добавляем в массив id поста (ключ) и id тега (значение)
+            $values[] = [$this->id, $id];
+        }
+        // Добавляем запись в БД
+        self::getDb()
+            // Создаем запрос
+            ->createCommand()
+            // В связующую таблицу TagPost, в соответствующие столбцы, добавляем значения массива
+            ->batchInsert(TagPost::tableName(), ['post_id', 'tag_id'], $values)
+            // Выход
+            ->execute();
+        // Устанавливаем событие у родительсого класса
+        parent::afterSave($insert, $changedAttributes);
+    }
 }

@@ -37,7 +37,12 @@ $this->params['breadcrumbs'][] = $this->title;
             <label>Категория: </label>
             <?= $model->category->name ?>
         </div>
-
+        <div class='list-group-item clearfix'>
+            <label>Тэги: </label>
+            <?php foreach($model->getTagPost()->all() as $post) : ?>
+            <?= $post->getTag()->one()->title ?>
+            <?php endforeach; ?>
+        </div>
         <div class="comments-form">
             <h3><?= Yii::t('app', 'Add comment')?></h3>
             <?php

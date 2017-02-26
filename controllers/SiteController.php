@@ -12,6 +12,7 @@ use app\models\Post;
 use app\models\Category;
 use app\models\Comment;
 use app\models\Subscribers;
+use app\models\Tags;
 
 class SiteController extends Controller {
 
@@ -56,6 +57,8 @@ class SiteController extends Controller {
                 'model' => $model,
                 // Передаем список категорий
                 'category' => Category::find()->asArray()->all(),
+                // Передаем список тегов
+                'tags' => Tags::find()->asArray()->all(),
             ]);
         }
     }
@@ -74,6 +77,8 @@ class SiteController extends Controller {
                 'model' => $model,
                 // Передаем список категорий
                 'category' => Category::find()->asArray()->all(),
+                // Передаем список тегов
+                'tags' => Tags::find()->asArray()->all(),
             ]);
         }
     }
