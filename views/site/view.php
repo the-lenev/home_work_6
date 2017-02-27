@@ -73,7 +73,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         <p><?= $com['text']?></p>
                     </div>
                     <div class="col-sm-1">
-                        <a href="<?= Url::to(['site/delete_comment', 'id' => $comment['id']])?>">
+                        <a href="<?= Url::to(['site/delete_comment', 'id' => $com['id']])?>">
                             <span class="glyphicon glyphicon-trash">
                         </a>
                     </div>
